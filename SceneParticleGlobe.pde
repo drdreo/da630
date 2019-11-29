@@ -1,4 +1,4 @@
-int globeRadius = 10; //<>//
+int globeRadius = 350; //<>//
 
 class SceneParticleGlobe extends Scene {
 

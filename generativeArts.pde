@@ -1,19 +1,29 @@
 SceneManager sm;
+DeepSpaceManager dsm;
+
+void settings() {
+  dsm = new DeepSpaceManager();
+  // size has to be inited in settings when using OOP
+  size(dsm.windowWidth, dsm.windowHeight); 
+  smooth();
+}
 
 void setup() {
-  size(2000, 1000);
-  background(21, 8, 50);
+  frameRate(dsm.frameRate);
+  dsm.doSetup();
 
   sm = new SceneManager();
 }
 
 void draw() {
+  dsm.drawDSMHelpers();
   sm.doDraw();
 }
 
 
 void keyPressed() {
   sm.handleKeyPressed();
+  dsm.handleKeyPressed();
 }
 
 void mouseClicked() {
