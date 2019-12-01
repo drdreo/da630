@@ -4,7 +4,7 @@ DeepSpaceManager dsm;
 void settings() {
   dsm = new DeepSpaceManager();
   // size has to be inited in settings when using OOP
-  size(dsm.windowWidth, dsm.windowHeight); 
+  size(dsm.windowWidth, dsm.windowHeight, FX2D ); 
   smooth();
 }
 
@@ -16,6 +16,7 @@ void setup() {
 }
 
 void draw() {
+  // draw upper / lower area of deep space and tracking helpers
   dsm.drawDSMHelpers();
   sm.doDraw();
 }

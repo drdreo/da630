@@ -2,15 +2,16 @@ class DeepSpaceManager {
   float cursor_size = 25;
   PFont font;
 
-  int shrink = 2;
-  int windowWidth = 3030/shrink; // for real Deep Space this should be 3030
-  int windowHeight = 3712/shrink; // for real Deep Space this should be 3712
-  int wallHeight = 1914/shrink; // for real Deep Space this should be 1914 (Floor is 1798)
+  int shrink = 4;
+  int windowWidth = 3030 / shrink; // for real Deep Space this should be 3030
+  int windowHeight = 3712 / shrink; // for real Deep Space this should be 3712
+  int wallHeight = 1914 / shrink; // for real Deep Space this should be 1914 
+  int floorHeight = 1798 / shrink; // for real Deep Space this should be 1798 
   int frameRate = 30;
 
-  boolean ShowTrack = true;
-  boolean ShowPath = true;
-  boolean ShowFeet = true;
+  boolean showTrack = true;
+  boolean showPath = false;
+  boolean showFeet = false;
   boolean helpersDrawn = false;
 
   void doSetup() {
@@ -18,40 +19,44 @@ class DeepSpaceManager {
     fill(0);
 
     font = createFont("Arial", 18);
-    textFont(font, 18);
+    textFont(font, 12);
     textAlign(CENTER, CENTER);
 
     initPlayerTracking();
   }
 
   void drawDSMHelpers() {
-    if(!helpersDrawn){
+    if (!helpersDrawn) {
       // clear background with white
       background(255);
 
       // set upper half of window (=wall projection) bluish
       noStroke();
-      fill(70, 100, 150);
+      fill(21, 8, 50);
       rect(0, 0, windowWidth, wallHeight);
       helpersDrawn = true;
     }
 
-    fill(150);
+    fill(255);
     text((int)frameRate + " FPS", width / 2, 10);
+    text("Width: " + this.windowWidth, width / 2, 30);
+    text("Wall height: " + this.wallHeight, width / 2, 50);
+
     drawPlayerTracking();
   }
 
   void handleKeyPressed()
   {
-    switch(key){
+    println("handle key:" + key);
+    switch(Character.toLowerCase(key)) {
     case 'p':
-      ShowPath = !ShowPath;
+      showPath = !showPath;
       break;
     case 't':
-      ShowTrack = !ShowTrack;
+      showTrack = !showTrack;
       break;
     case 'f':
-      ShowFeet = !ShowFeet;
+      showFeet = !showFeet;
       break;
     }
   }

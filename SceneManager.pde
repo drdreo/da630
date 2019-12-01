@@ -21,7 +21,7 @@ class SceneManager {
   Scene scene;
 
   SceneManager() {
-    this.scene = new SceneMigration(this);
+    this.scene = new SceneWind(this);
   }
 
   void setScene(Scene scene) {

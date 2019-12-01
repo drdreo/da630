@@ -12,7 +12,11 @@ void initPlayerTracking()
   // age is measured in update cycles, with 25 fps this is 2 seconds
   pc.setMaxAge(50);
   // max distance allowed when jumping between last known position and potential landing position, unit is in pixels relative to window width
-  pc.setjumpDistanceMaxTolerance(0.05f);  
+  pc.setjumpDistanceMaxTolerance(0.05f);
+}
+
+HashMap<Long, Player>  getPlayers() {
+  return  pc.players;
 }
 
 void drawPlayerTracking()
@@ -23,7 +27,7 @@ void drawPlayerTracking()
     Player p = playersEntry.getValue();
 
     // render path of each track
-    if (dsm.ShowPath)
+    if (dsm.showPath)
     {
       if (p.getNumPathPoints() > 1)
       {
@@ -45,15 +49,14 @@ void drawPlayerTracking()
     }
 
     // render tracks = player
-    if (dsm.ShowTrack)
+    if (dsm.showTrack)
     {
       // show each track with the corresponding  id number
       noStroke();
       if (p.isJumping())
       {
         fill(192, 0, 0);
-      }
-      else
+      } else
       {
         fill(192, 192, 192);
       }
@@ -63,7 +66,7 @@ void drawPlayerTracking()
     }
 
     // render feet for each track
-    if (dsm.ShowFeet)
+    if (dsm.showFeet)
     {
       // show the feet of each track
       stroke(70, 100, 150, 200);
@@ -80,13 +83,13 @@ void drawPlayerTracking()
 void pharusPlayerAdded(Player player)
 {
   println("Player " + player.id + " added");
-  
+
   // TODO do something here if needed
 }
 
 void pharusPlayerRemoved(Player player)
 {
   println("Player " + player.id + " removed");
-  
-  // TODO do something here if needed  
+
+  // TODO do something here if needed
 }
