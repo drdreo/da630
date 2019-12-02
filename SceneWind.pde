@@ -2,7 +2,7 @@
 class SceneWind extends Scene {
   SceneManager sm;
 
-  int noiseScale = 1500, noiseStrength = 3, amount = dsm.windowWidth * 10;
+  int noiseScale = 1500, noiseStrength = 3, amount = 10000;
 
   Particle[] particles = new Particle[amount];
   Repeller r = new Repeller(dsm.windowWidth / 2, dsm.wallHeight /2);
@@ -27,7 +27,7 @@ class SceneWind extends Scene {
     for (HashMap.Entry<Long, Player> playersEntry : pc.players.entrySet()) 
     {
       Player p = playersEntry.getValue();
-      fill(255);
+      fill(0);
       ellipse(p.x, p.y, 122, 122);
       repellers.put(p.tuioId, new Repeller(p.x, p.y - dsm.floorHeight));
     }
@@ -44,7 +44,7 @@ class SceneWind extends Scene {
     noStroke();
     smooth();
 
-    fill(0,0,0, 10);
+    fill(0,0,0, 3);
     rect(0,0, dsm.windowWidth, dsm.windowHeight);
     addRepellers();
     //drawRepellers();
@@ -159,7 +159,7 @@ class SceneWind extends Scene {
 
     void display() {
       fill(this.fillColor);
-      ellipse(this.pos.x, this.pos.y, 1, 1);
+      ellipse(this.pos.x, this.pos.y, 3, 3);
       /* for (int i = 0; i < trail.size(); i++) {
        PVector tP = trail.get(i);
        ellipse(tP.x, tP.y, 2, 2);
