@@ -12,6 +12,7 @@ class Player
     this.tuioId = tuioId;
     this.x = x;
     this.y = y;
+    
   }
 
   // --- All the information about a player ---

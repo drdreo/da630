@@ -2,7 +2,7 @@
 class SceneWind extends Scene {
   SceneManager sm;
 
-  int noiseScale = 500, noiseStrength = 2, amount = 1200;
+  int noiseScale = 1500, noiseStrength =3, amount = 40000;
 
   Particle[] particles = new Particle[amount];
   Repeller r = new Repeller(dsm.windowWidth / 2, dsm.wallHeight /2);
@@ -23,17 +23,20 @@ class SceneWind extends Scene {
   }
 
   void addRepellers() {
+    //repellers.clear();
     for (HashMap.Entry<Long, Player> playersEntry : pc.players.entrySet()) 
     {
       Player p = playersEntry.getValue();
+      fill(255);
+      ellipse(p.x, p.y, 122, 122);
+      repellers.put(p.tuioId, new Repeller(p.x, p.y - dsm.floorHeight));
+    }
+  }
 
-      if (repellers.containsKey(p.tuioId)) {
-        Repeller r = repellers.get(p.tuioId);
-        // update repeller location to player's
-        r.location.set(p.x, p.y - dsm.floorHeight);
-      } else {
-        repellers.put(p.tuioId, new Repeller(p.x, p.y - dsm.floorHeight));
-      }
+  void drawRepellers() {
+    for (HashMap.Entry<Long, Repeller> repeller : repellers.entrySet()) 
+    {
+      repeller.getValue().display();
     }
   }
 
@@ -42,15 +45,16 @@ class SceneWind extends Scene {
     smooth();
 
     addRepellers();
+    //drawRepellers();
 
     // background(21, 8, 50);
     for (int i = 0; i < particles.length; i++) {
 
-      // r.display();
       // calculate strongest force of all repellers
       PVector strongestForce = new PVector(0, 0);
       for (Map.Entry rep : repellers.entrySet()) { 
         Repeller r = (Repeller)rep.getValue(); 
+
         PVector repellForce = r.repel(particles[i]);
         if (strongestForce.mag() <repellForce.mag()) {
           strongestForce = repellForce.copy();
@@ -80,6 +84,10 @@ class SceneWind extends Scene {
 
   void handleMouseDragged() {
     r.location = new PVector(mouseX, mouseY);
+  }
+
+  void handleMousePressed() {
+    repellers.put((long)1, new Repeller(mouseX, mouseY));
   }
 
   void end() {
@@ -165,8 +173,8 @@ class SceneWind extends Scene {
 
   class Repeller {
     PVector location;
-    float r = 4;
-    float strength = 200;
+    float r = 122;
+    float strength = 2000;
 
     boolean drawn = false;
 
@@ -178,7 +186,7 @@ class SceneWind extends Scene {
       PVector dir = PVector.sub(location, p.pos);
       float d = dir.mag();
       dir.normalize();
-      d = constrain(d, 5, 100);
+      d = constrain(d, 5, 200);
 
       float force = -strength / (d * d);
       dir.mult(force);
@@ -188,7 +196,6 @@ class SceneWind extends Scene {
     void display() {
       fill(255);
       ellipse(location.x, location.y, r, r);
-      drawn = true;
     }
   }
 }
