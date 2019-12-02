@@ -69,7 +69,7 @@ class SceneWind extends Scene {
         // apply perlin force
         float angle = noise(pos.x / noiseScale, pos.y / noiseScale) * TWO_PI * noiseStrength;
         PVector dir = new PVector(cos(angle), sin(angle));
-        particles[i].applyForce(dir.limit(0.1));
+        particles[i].applyForce(dir);
 
         /* float angle=noise(this.pos.x/noiseScale, this.pos.y/noiseScale, frameCount/noiseScale)*TWO_PI*this.noiseStrength;
          this.dir.x = cos(angle)+sin(angle)-sin(angle);
