@@ -2,7 +2,7 @@ class DeepSpaceManager {
   float cursor_size = 25;
   PFont font;
 
-  int shrink = 3;
+  int shrink = 1;
   int windowWidth = 3030 / shrink; // for real Deep Space this should be 3030
   int windowHeight = 3712 / shrink; // for real Deep Space this should be 3712
   int wallHeight = 1914 / shrink; // for real Deep Space this should be 1914 
@@ -16,7 +16,7 @@ class DeepSpaceManager {
 
   void doSetup() {
     noStroke();
-    fill(0);
+    fill(255);
 
     font = createFont("Arial", 18);
     textFont(font, 12);
@@ -27,8 +27,8 @@ class DeepSpaceManager {
 
   void drawDSMHelpers() {
     if (!helpersDrawn) {
-      // clear background with white
-      background(255);
+      // clear background with black
+      background(0);
 
       // set upper half of window (=wall projection) bluish
       noStroke();
