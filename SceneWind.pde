@@ -2,13 +2,13 @@
 class SceneWind extends Scene {
   SceneManager sm;
 
-  int noiseScale = 1500, noiseStrength =3, amount = 40000;
+  int noiseScale = 1500, noiseStrength = 3, amount = dsm.windowWidth * 10;
 
   Particle[] particles = new Particle[amount];
   Repeller r = new Repeller(dsm.windowWidth / 2, dsm.wallHeight /2);
   HashMap<Long, Repeller> repellers = new HashMap<Long, Repeller>();
 
-  color[] windColors = {color(69, 69, 69), color(100, 200, 250), color(200, 200, 200)};
+  color[] windColors = {color(50, 50, 150), color(100, 200, 250), color(255, 255, 255)};
 
   SceneWind(SceneManager sm) {  
     println("Scene Wind created!");
@@ -44,6 +44,8 @@ class SceneWind extends Scene {
     noStroke();
     smooth();
 
+    fill(0,0,0, 10);
+    rect(0,0, dsm.windowWidth, dsm.windowHeight);
     addRepellers();
     //drawRepellers();
 
@@ -62,14 +64,12 @@ class SceneWind extends Scene {
       } 
 
 
-      if (strongestForce.mag() > 0.5) {
-        particles[i].applyForce(strongestForce);
-      } else {
+      
         PVector pos = particles[i].pos;
         // apply perlin force
         float angle = noise(pos.x / noiseScale, pos.y / noiseScale) * TWO_PI * noiseStrength;
         PVector dir = new PVector(cos(angle), sin(angle));
-        particles[i].applyForce(dir);
+        particles[i].applyForce(dir.add(strongestForce));
 
         /* float angle=noise(this.pos.x/noiseScale, this.pos.y/noiseScale, frameCount/noiseScale)*TWO_PI*this.noiseStrength;
          this.dir.x = cos(angle)+sin(angle)-sin(angle);
@@ -77,7 +77,7 @@ class SceneWind extends Scene {
          this.vel = this.dir.copy();
          this.vel.mult(this.speed);
          this.pos.add(this.vel);*/
-      }
+      
       particles[i].step();
     }
   }
@@ -147,8 +147,8 @@ class SceneWind extends Scene {
         //  this.fillColor = color(255, 0, 0);
         //println(this.id + " outbound x:" + this.pos.x + " y:" + this.pos.y);
 
-        this.pos.x = random(50, dsm.windowWidth);
-        this.pos.y = random(50, dsm.wallHeight);
+        this.pos.x = random(1, dsm.windowWidth);
+        this.pos.y = random(1, dsm.wallHeight);
         this.checkEdge();
       }
     }
