@@ -41,10 +41,11 @@ class SceneWind extends Scene {
   }
 
   void doDraw() {
+
     noStroke();
     smooth();
 
-    fill(0,0,0, 10);
+    fill(255,255,255, 10);
     rect(0,0, dsm.windowWidth, dsm.windowHeight);
     addRepellers();
     //drawRepellers();
@@ -62,23 +63,26 @@ class SceneWind extends Scene {
           strongestForce = repellForce.copy();
         }
       } 
-
-
       
-        PVector pos = particles[i].pos;
-        // apply perlin force
-        float angle = noise(pos.x / noiseScale, pos.y / noiseScale) * TWO_PI * noiseStrength;
-        PVector dir = new PVector(cos(angle), sin(angle));
-        particles[i].applyForce(dir.add(strongestForce));
+      PVector pos = particles[i].pos;
+      // apply perlin force
+      float angle = noise(pos.x / noiseScale, pos.y / noiseScale) * TWO_PI * noiseStrength;
+      PVector dir = new PVector(cos(angle), sin(angle));
+      particles[i].applyForce(dir.add(strongestForce));
 
         /* float angle=noise(this.pos.x/noiseScale, this.pos.y/noiseScale, frameCount/noiseScale)*TWO_PI*this.noiseStrength;
-         this.dir.x = cos(angle)+sin(angle)-sin(angle);
-         this.dir.y = sin(angle)-cos(angle)*sin(angle);
-         this.vel = this.dir.copy();
-         this.vel.mult(this.speed);
-         this.pos.add(this.vel);*/
+        this.dir.x = cos(angle)+sin(angle)-sin(angle);
+        this.dir.y = sin(angle)-cos(angle)*sin(angle);
+        this.vel = this.dir.copy();
+        this.vel.mult(this.speed);
+        this.pos.add(this.vel);*/
       
       particles[i].step();
+    }
+    
+    // start end fade after 10000ms
+    if(millis() - startTime > 10000){
+      this.startEnd();
     }
   }
 
@@ -91,6 +95,8 @@ class SceneWind extends Scene {
   }
 
   void end() {
+    println("ended SceneWind");
+    this.sm.setScene(new SceneParticleGlobe());
   }
 
   class Particle {

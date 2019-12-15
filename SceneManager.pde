@@ -1,17 +1,38 @@
 abstract class Scene {
 
+  int startTime = millis();
+  int endTime = 0;
+  int fadingTime = 3000; // how long the fade should take
+
   abstract void doDraw();
-  void end() {
+  void end() {};
+
+  void startEnd() {
+
+    // if we trigger this the first time, store current time
+    if(!this.ended()){
+      this.endTime = millis();
+    }
+
+    // as long as fading time is not over, fill the whole screen with a transparent color
+    if(millis() - this.endTime < this.fadingTime){
+      fill(12,12,12,12);
+      rect(0,0, dsm.windowWidth, dsm.windowHeight);
+    } else {
+      // switch to next scene, if we are done fading
+      this.end();
+    }
   };
-  void handleMouseClicked() {
-  };
-  void handleMouseDragged() {
-  };
-  void handleMousePressed() {
-  };
-  void handleMouseReleased() {
-  };
-  
+
+  // returns true if scene has already ended
+  boolean ended(){
+    return this.endTime != 0;
+  }
+
+  void handleMouseClicked() {};
+  void handleMouseDragged() {};
+  void handleMousePressed() {};
+  void handleMouseReleased() {};
   void handleKeyPressed(){}
 }
  
@@ -29,7 +50,12 @@ class SceneManager {
   }
 
   void doDraw() {
-    this.scene.doDraw();
+    if(!this.scene.ended()){
+      this.scene.doDraw();
+    } else {
+      // if scene ended, continue fading
+      this.scene.startEnd();
+    }
   }
 
   void handleMouseClicked() {

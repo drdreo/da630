@@ -11,7 +11,7 @@ class SceneParticleGlobe extends Scene {
   void doDraw() {
     fill(64, 255, 255, 192);
 
-    background(32);
+    background(12);
 
     for (int particleA = 0; particleA < mass.size(); particleA++) {
       float accelerationX = 0, accelerationY = 0;
