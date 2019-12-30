@@ -33,7 +33,7 @@ abstract class Scene {
   void handleMouseDragged() {};
   void handleMousePressed() {};
   void handleMouseReleased() {};
-  void handleKeyPressed(){}
+  void handleKeyPressed(){};
 }
  
 
@@ -42,7 +42,7 @@ class SceneManager {
   Scene scene;
 
   SceneManager() {
-    this.scene = new SceneWind(this);
+    this.scene = new SceneHeat();
   }
 
   void setScene(Scene scene) {
