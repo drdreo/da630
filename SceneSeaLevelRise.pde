@@ -1,16 +1,14 @@
-class SceneSeaLevelRise_jas extends Scene {
+class SceneSeaLevelRise extends Scene {
 
   SceneManager sm;
-  DeepSpaceManager dsm;
 
   float yoff = 0.0;   
   float g = 240;
   float b = 240;
   float transY = 0;
 
-  void setup() {
-    size(dsm.windowHeight, dsm.windowWidth);
-    background(247, 248, 250);
+  SceneSeaLevelRise(SceneManager sm){
+    this.sm = sm;
   }
 
   void doDraw() {
@@ -50,5 +48,15 @@ class SceneSeaLevelRise_jas extends Scene {
     vertex(0, transY);
     transY = transY + 1000;
     endShape(CLOSE);
+
+     // start end fade after 10000ms
+    if(millis() - startTime > 3000){
+      this.startEnd();
+    }
+  }
+
+  void end() {
+    println("ended SceneSeaLevelRise");
+    this.sm.setScene(new SceneHeat(this.sm));
   }
 }

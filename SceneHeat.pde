@@ -1,17 +1,23 @@
 class SceneHeat extends Scene {
+  SceneManager sm;
 
   Particle[] particles;
   float alpha;
 
   int redValue = 1;
+  float averageAge = 0;
 
-  SceneHeat() {
+
+  SceneHeat(SceneManager sm) {
+    println("Scene Heat created!");
+    this.sm = sm;
+
     noStroke();
     setParticles();
   }
 
   void doDraw() {
-    this.alpha = map(mouseX, 0, width, 5, 35);
+    this.alpha = 15; //map(mouseX, 0, width, 5, 35);
     fill(0, alpha);
     rect(0, 0, width, height);
 
@@ -25,6 +31,16 @@ class SceneHeat extends Scene {
       p.move();
     }
     updatePixels();
+    updatePlayersAge();
+    //  // start end fade after 10000ms
+    // if(millis() - startTime > 3000){
+    //   this.startEnd();
+    // }
+  }
+
+ void end() {
+    println("ended SceneHeat");
+    //this.sm.setScene(new SceneHeat());
   }
 
   void setParticles() {
@@ -36,6 +52,18 @@ class SceneHeat extends Scene {
       int c = color(40, adj, 255);
       this.particles[i] = new Particle(x, y, c);
     }
+  }
+
+  void updatePlayersAge(){
+    int playersCount = pc.players.size();
+    float avg = 0;
+    for (HashMap.Entry<Long, Player> playersEntry : pc.players.entrySet()) 
+    {
+      Player p = playersEntry.getValue();
+      avg += p.age;
+    }
+    this.averageAge = avg / playersCount;
+    println("Avg. Age: " + this.averageAge);
   }
 
   class Particle {
