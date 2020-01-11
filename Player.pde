@@ -12,7 +12,6 @@ class Player
     this.tuioId = tuioId;
     this.x = x;
     this.y = y;
-    
   }
 
   // --- All the information about a player ---
@@ -26,6 +25,29 @@ class Player
 
   // TODO extend this with additional fields
 
+  float lastX = 0, lastY = 0; // hold the last check position
+  float checkTime;
+  
+  boolean isMoving() {
+    if (lastX == 0 || lastY == 0) {
+      checkTime = millis();
+      lastX = this.x;
+      lastY = this.y;
+    }
+    
+    float d = PVector.dist(new PVector(lastX, lastY), new PVector(this.x, this.y));
+    boolean moving =  abs(d) > 1;
+    
+     // update values after 300ms
+    if(millis() - checkTime > 300){
+      checkTime = millis();
+      lastX = this.x;
+      lastY = this.y;
+    }
+    
+    return moving;
+  }
+  
   // --- Some functions that have information about the player ---
   boolean isJumping()
   {
@@ -75,7 +97,6 @@ class Player
   }  
 
   // TODO extend this with additional functions
-
 }
 
 // helper class for feet
@@ -86,7 +107,7 @@ public class Foot
     this.x = x;
     this.y = y;
   }
-  
+
   float x;
   float y;
 }
