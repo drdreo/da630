@@ -11,6 +11,7 @@ class SceneParticleGlobe extends Scene { //<>//
   ArrayList<Float> velocityY = new ArrayList<Float>();
   ArrayList<Integer> colors = new ArrayList<Integer>();
   ArrayList<String> types = new ArrayList<String>();
+  ArrayList<Integer> polygons = new ArrayList<Integer>();
   
   SceneParticleGlobe() {
     time = 0;
@@ -22,6 +23,7 @@ class SceneParticleGlobe extends Scene { //<>//
     if (millis() > time) {
       time += (int) random(50, 300);
       addRandomParticle();
+      randomizePolygons();
     }
     
     if (millis() > playerDelay) {
@@ -54,6 +56,8 @@ class SceneParticleGlobe extends Scene { //<>//
     
     //loadPixels();
 
+    int n = 0;
+    
     for (int particle = 0; particle < mass.size(); particle++) {
       positionX.set(particle,   positionX.get(particle) + velocityX.get(particle));
       positionY.set(particle,  positionY.get(particle) + velocityY.get(particle));
@@ -62,10 +66,12 @@ class SceneParticleGlobe extends Scene { //<>//
       float x = positionX.get(particle); //<>//
       float y = positionY.get(particle);
       float width = mass.get(particle) * 1000;
+      
       if (types.get(particle) == "circle") {
         ellipse(x, y, width, width);
-      } else if (types.get(particle) == "pentagon") {
-        polygon(x, y, width/2, 5);
+      } else if (types.get(particle) == "polygon") {
+        polygon(x, y, width/2, polygons.get(n));
+        n++;
       }
     }
     
@@ -85,6 +91,12 @@ class SceneParticleGlobe extends Scene { //<>//
     velocityY.add(0.0);
     types.add("circle");
   }
+  
+  void randomizePolygons() {
+    for (int i = 0; i<polygons.size(); i++) {
+      polygons.set(i, (int)random(4, 8));
+    }
+  }
 
   void addNewParticle(int x, int y) {
     if (y > dsm.windowHeight / 2) {
@@ -93,7 +105,8 @@ class SceneParticleGlobe extends Scene { //<>//
         types.add("circle");
       } else {
         colors.add(color(164, 34, 98, 114));
-        types.add("pentagon");
+        types.add("polygon");
+        polygons.add((int)random(4, 8));
       }
 
       mass.add(random(0.003, 0.03));
