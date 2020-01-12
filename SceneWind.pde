@@ -82,7 +82,7 @@ class SceneWind extends Scene {
     }
     
     // start end fade after 10000ms
-    if(millis() - startTime > 10000){
+    if(millis() - startTime > 3000){
       this.startEnd();
     }
   }
@@ -97,7 +97,7 @@ class SceneWind extends Scene {
 
   void end() {
     println("ended SceneWind");
-    this.sm.setScene(new SceneParticleGlobe());
+    this.sm.setScene(new SceneSeaLevelRise(this.sm));
   }
 
   class Particle {

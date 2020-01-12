@@ -1,22 +1,40 @@
 class SceneHeat extends Scene {
+  SceneManager sm;
 
   Particle[] particles;
+  int particlesAmount = 10000;
   float alpha;
 
   int redValue = 1;
+  int movingPlayers = 0;
 
-  SceneHeat() {
+  float heatTime = 0;
+
+  SceneHeat(SceneManager sm) {
+    println("Scene Heat created!");
+    this.sm = sm;
+
     noStroke();
     setParticles();
   }
 
   void doDraw() {
-    this.alpha = map(mouseX, 0, width, 5, 35);
+    this.alpha = 7; //map(this.averagePos, 0, width, 5, 35);
+    //println("alpha: " + this.alpha);
     fill(0, alpha);
     rect(0, 0, width, height);
 
-    if(this.redValue < 255){
+    // if 33% of all players move, increase heat
+    int movingLimit = (int)pc.players.size() / 2;
+    if (this.movingPlayers > movingLimit && this.redValue < 255) {     
       this.redValue++;
+      if (this.heatTime == 0 && this.redValue == 255) {
+        this.heatTime = millis();
+      }
+    } else {
+      if (this.redValue > 10 ) {
+        this.redValue -= 10;
+      }
     }
 
     loadPixels();
@@ -25,16 +43,37 @@ class SceneHeat extends Scene {
       p.move();
     }
     updatePixels();
+    updateAvgPlayers();
+    // start end fade after heat was on for 3000ms
+    if (millis() - heatTime > 10000){
+      this.startEnd();
+    }
+  }
+
+  void end() {
+    println("ended SceneHeat");
+    this.sm.setScene(new SceneMigration(this.sm));
   }
 
   void setParticles() {
-    particles = new Particle[6000];
-    for (int i = 0; i < 6000; i++) { 
+    particles = new Particle[particlesAmount];
+    for (int i = 0; i < particlesAmount; i++) { 
       float x = random(width);
       float y = random(height);
       float adj = map(y, 0, height, 255, 0);
       int c = color(40, adj, 255);
       this.particles[i] = new Particle(x, y, c);
+    }
+  }
+
+  void updateAvgPlayers() {
+    this.movingPlayers = 0;
+    for (HashMap.Entry<Long, Player> playersEntry : pc.players.entrySet()) 
+    {
+      Player p = playersEntry.getValue();
+      if (p.isMoving()) {
+        this.movingPlayers++;
+      }
     }
   }
 
@@ -61,8 +100,8 @@ class SceneHeat extends Scene {
       posY += 2 * sin(theta);
     }
 
-    void updateColor(){
-        this.c = color(redValue, green(this.c), 255 - redValue);
+    void updateColor() {
+      this.c = color(redValue, green(this.c), 255 - redValue);
     }
 
     void display() {
