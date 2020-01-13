@@ -14,6 +14,7 @@ class SceneHeat extends Scene {
     println("Scene Heat created!");
     this.sm = sm;
 
+    background(12);
     noStroke();
     setParticles();
   }
@@ -45,7 +46,7 @@ class SceneHeat extends Scene {
     updatePixels();
     updateAvgPlayers();
     // start end fade after heat was on for 3000ms
-    if (millis() - heatTime > 10000){
+    if (millis() - startTime > 10000) {
       this.startEnd();
     }
   }

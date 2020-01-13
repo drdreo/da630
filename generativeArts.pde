@@ -17,8 +17,8 @@ void setup() {
 
 void draw() {
   // draw upper / lower area of deep space and tracking helpers
-  dsm.drawDSMHelpers();
   sm.doDraw();
+ // dsm.drawDSMHelpers();
 }
 
 

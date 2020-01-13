@@ -42,7 +42,7 @@ class SceneManager {
   Scene scene;
 
   SceneManager() {
-    this.scene = new SceneHeat(this);
+    this.scene = new SceneIntro(this);
   }
 
   void setScene(Scene scene) {

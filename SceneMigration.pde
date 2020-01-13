@@ -2,7 +2,6 @@
 class SceneMigration extends Scene {
 
   SceneManager sm;
-  int duration  = 0;
 
   int padding;
 
@@ -64,14 +63,13 @@ class SceneMigration extends Scene {
 
 
     // our random end declaration
-    duration++;
-
-    if (duration >= 500) {
-      this.end();
+    // start end fade after 10000ms
+    if(millis() - startTime > 10000){
+      this.startEnd();
     }
   }
 
-  void handleMousePressed() {
+  void handleKeyPressed() {
     if (key == 'b') bDisplayVectorField = !bDisplayVectorField;
     if (key == 'p') displayParticle = !displayParticle;
     if (key == '+') m.add (new Mover());
@@ -84,7 +82,9 @@ class SceneMigration extends Scene {
     }
   }
 
-  void end() {
+   void end() {
+    println("ended SceneMigration");
+    this.sm.setScene(new SceneParticleGlobe(this.sm));
   }
 
   class Mover 
