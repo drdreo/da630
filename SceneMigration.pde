@@ -12,6 +12,11 @@ class SceneMigration extends Scene {
   float posX;
   float posY;
 
+  int redValue = 1;
+  int movingPlayers = 0;
+  
+  color c = 150;
+
   boolean bDisplayVectorField = false, displayParticle = true;
 
   SceneMigration(SceneManager sm) {  
@@ -40,6 +45,15 @@ class SceneMigration extends Scene {
     noStroke();
     fill (7, 15);
     rect (0, 0, width, height);
+    
+    // if 33% of all players move, add ranodm noise
+    int movingLimit = (int)pc.players.size() / 3;
+    if (this.movingPlayers > movingLimit) {     
+      noiseSeed ((int) random (10000));
+      this.c = 100;
+    } else {
+      this.c = 200;
+    }
 
     posX = lerp (posX, (mousePressed ? mouseX : noise (frameCount /500.0) * width /*noise (20+frameCount / 100.0)*1.5*/), 0.05);
     posY = lerp (posY, mousePressed ? map (mouseY, 0, height, 0, 1) : (noise (100+frameCount / 400.0)), 0.05) ;
@@ -53,18 +67,18 @@ class SceneMigration extends Scene {
         m.get (i).setVelo (posX, posY, noise (frameCount / 300.0));
         m.get(i).checkEdges();  
 
-        m.get(i).display();
+        m.get(i).display(144);
       }
     }
     //copy (1, 1, width, height, -1, -1, width+3, height+3);
 
 
     if (bDisplayVectorField) displayVectorField();
-
+    updateAvgPlayers();
 
     // our random end declaration
-    // start end fade after 10000ms
-    if(millis() - startTime > 10000){
+    // start end fade after 15 seconds
+    if (millis() - startTime > 15000) {
       this.startEnd();
     }
   }
@@ -82,7 +96,18 @@ class SceneMigration extends Scene {
     }
   }
 
-   void end() {
+  void updateAvgPlayers() {
+    this.movingPlayers = 0;
+    for (HashMap.Entry<Long, Player> playersEntry : pc.players.entrySet()) 
+    {
+      Player p = playersEntry.getValue();
+      if (p.isMoving()) {
+        this.movingPlayers++;
+      }
+    }
+  }
+
+  void end() {
     println("ended SceneMigration");
     this.sm.setScene(new SceneParticleGlobe(this.sm));
   }
@@ -145,11 +170,11 @@ class SceneMigration extends Scene {
     }
 
 
-    void display ()
+    void display (int c)
     {
       //strokeWeight (0.5);
-      //fill(#b1c999, 255);
-      stroke(247);
+      fill(#b1c999, 255);
+      stroke(c);
       point (location.x, location.y);
     }
   }
