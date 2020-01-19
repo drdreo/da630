@@ -7,7 +7,7 @@ class DeepSpaceManager {
   int windowHeight = 3712 / shrink; // for real Deep Space this should be 3712
   int wallHeight = 1914 / shrink; // for real Deep Space this should be 1914 
   int floorHeight = 1798 / shrink; // for real Deep Space this should be 1798 
-  int frameRate = 30;
+  int FrameRate = 30;
 
   boolean showTrack = true;
   boolean showPath = false;
@@ -38,7 +38,7 @@ class DeepSpaceManager {
     }
 
     fill(255);
-    text((int)frameRate + " FPS", width / 2, 10);
+    text((int)FrameRate + " FPS", width / 2, 10);
     text("Width: " + this.windowWidth, width / 2, 30);
     text("Wall height: " + this.wallHeight, width / 2, 50);
 

@@ -11,7 +11,7 @@ void settings() {
 }
 
 void setup() {
-  frameRate(dsm.frameRate);
+  frameRate(dsm.FrameRate);
   dsm.doSetup();
 
   sm = new SceneManager(this);

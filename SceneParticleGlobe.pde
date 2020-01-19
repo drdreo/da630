@@ -1,4 +1,4 @@
-class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>//
+class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>// //<>//
   SceneManager sm;
 
   int time;
@@ -18,12 +18,16 @@ class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>//
     time = 0;
     playerDelay = 0;
     globeRadius = (int) (dsm.windowHeight/2.5);
-     
-    
+
+
     /*mass.add(mass.size(), 30.0);
-    position.add(position.size(), new PVector(dsm.windowWidth/2, dsm.windowHeight/2));
-    velocity.add(velocity.size(), new PVector(0, 0));
-    colors.add(mass.size(), 0);*/
+     position.add(position.size(), new PVector(dsm.windowWidth/2, dsm.windowHeight/2));
+     velocity.add(velocity.size(), new PVector(0, 0));
+     colors.add(mass.size(), 0);*/
+  }
+
+  void end() {
+    this.sm.setScene(new SceneEnd(this.sm));
   }
 
   void doDraw() {
@@ -43,11 +47,11 @@ class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>//
     }
 
     for (int particle = 0; particle < mass.size(); particle++) {
-      position.get(particle).lerp(new PVector(dsm.windowWidth+dsm.windowWidth/2.17,dsm.windowHeight/2-500),0.001);
-   }
+      position.get(particle).lerp(new PVector(dsm.windowWidth+dsm.windowWidth/2.17, dsm.windowHeight/2-500), 0.001);
+    }
 
     //rotate the globe
-    
+
     for (int particle = 0; particle < mass.size(); particle++) {
       position.get(particle).rotate(radians(.1));
     }
