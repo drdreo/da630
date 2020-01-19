@@ -1,3 +1,6 @@
+import processing.sound.*;
+SoundFile file;
+
 abstract class Scene {
 
   int startTime = millis();
@@ -41,8 +44,11 @@ class SceneManager {
 
   Scene scene;
 
-  SceneManager() {
-    this.scene = new SceneIntro(this);
+  SceneManager(PApplet p) {
+    this.scene = new SceneSeaLevelRise(this);
+    // Load a soundfile from the /data folder of the sketch and play it back
+    file = new SoundFile(p, "music.mp3");
+    file.play();
   }
 
   void setScene(Scene scene) {

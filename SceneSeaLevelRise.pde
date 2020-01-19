@@ -6,8 +6,10 @@ class SceneSeaLevelRise extends Scene {
   float g = 240;
   float b = 240;
   float transY = 0;
+  boolean bgCleared = false;
 
   SceneSeaLevelRise(SceneManager sm) {
+    println("SceneSeaLevelRise started");
     this.sm = sm;
   }
 
@@ -42,8 +44,14 @@ class SceneSeaLevelRise extends Scene {
     endShape(CLOSE);
 
     // start end fade after 10000ms
-    if (millis() - startTime > 10000) {
+    if (millis() - startTime > 13000) {
       this.startEnd();
+    }
+
+    if (!bgCleared) {
+      bgCleared = true;
+      fill(12, 12, 12);
+      rect(0, 0, dsm.windowWidth, dsm.windowHeight);
     }
   }
 
