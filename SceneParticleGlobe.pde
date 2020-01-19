@@ -15,8 +15,8 @@ class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>// //<>//
 
   SceneParticleGlobe(SceneManager SM) {
     sm = SM;
-    time = 0;
-    playerDelay = 0;
+    time = millis();
+    playerDelay = millis();
     globeRadius = (int) (dsm.windowHeight/2.5);
 
 
@@ -42,7 +42,7 @@ class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>// //<>//
     }
 
     if (millis() > playerDelay) {
-      playerDelay += (int) random(500, 1500);
+      playerDelay += (int) random(400, 1000);
       checkPlayerLocation();
     }
 
@@ -98,13 +98,11 @@ class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>// //<>//
 
       if (types.get(particle) == "circle") {
         ellipse(x, y, w, w);
-        //translate(-100, -100);
-        //rotate(radians(1));
       } else if (types.get(particle) == "polygon") {
         polygon(x, y, w/2, polygons.get(n));
         n++;
-        //translate(-100, -100);
-        //rotate(radians(1));
+      } else if (types.get(particle) == "square") {
+        polygon(x, y, w/2, 4);
       }
     }
     //pop();
@@ -143,10 +141,10 @@ class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>// //<>//
   void addNewParticle(int x, int y) {
     if (y > dsm.windowHeight / 2) {
       if (x <= dsm.windowWidth / 2) {
-        colors.add(color(115, 115, 115, 87));
-        types.add("circle");
+        colors.add(color(110, 110, 110, 87));
+        types.add("square");
       } else {
-        colors.add(color(164, 34, 98, 114));
+        colors.add(color(164, 34, 18, 114));
         types.add("polygon");
         polygons.add((int)random(4, 8));
       }
