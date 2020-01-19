@@ -55,9 +55,7 @@ class SceneManager {
     this.scene = new SceneIntro(this);
     this.s = new Sound(p);
 
-    // Load a soundfile from the /data folder of the sketch and play it back
-    this.file = new SoundFile(p, "music.mp3");
-    this.file.play();
+ 
   }
 
   void setScene(Scene scene) {

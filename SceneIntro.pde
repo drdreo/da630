@@ -5,8 +5,8 @@ class SceneIntro extends Scene {
   int fontSize = 32;
 
   String[] sentences = {
-    "",
-    "",
+    "", 
+    "", 
     "The climate crisis is the battle of our time", 
     "We are facing the biggest environmental", 
     "challenge our species has ever seen.", 
@@ -21,6 +21,8 @@ class SceneIntro extends Scene {
     println("SceneIntro started");
 
     this.sm = sm;
+    this.fontSize = 120 / dsm.shrink;
+
     font = createFont("Kanit-Light.ttf", fontSize);
     textFont(font, fontSize);
     textAlign(CENTER, CENTER);
@@ -42,8 +44,8 @@ class SceneIntro extends Scene {
 
     if (alphaLerp <=0) {
       sentence++;
-      if(sentence == sentences.length){
-       this.end(); 
+      if (sentence == sentences.length) {
+        this.end();
       }
     }
   }

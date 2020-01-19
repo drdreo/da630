@@ -1,18 +1,24 @@
 SceneManager sm;
 DeepSpaceManager dsm;
 
+// Load a soundfile from the /data folder of the sketch and play it back
+SoundFile file ;
+
 void settings() {
   dsm = new DeepSpaceManager();
   // size has to be inited in settings when using OOP
-  size(dsm.windowWidth, dsm.windowHeight, FX2D ); 
-  //fullScreen(P2D, SPAN);
+  //size(dsm.windowWidth, dsm.windowHeight, FX2D ); 
+  fullScreen(P2D, SPAN);
 
   smooth();
+  file = new SoundFile(this, "music.mp3");
+  file.play();
 }
 
 void setup() {
   frameRate(dsm.FrameRate);
   dsm.doSetup();
+
 
   sm = new SceneManager(this);
 }
@@ -20,7 +26,7 @@ void setup() {
 void draw() {
   // draw upper / lower area of deep space and tracking helpers
   sm.doDraw();
- // dsm.drawDSMHelpers();
+  // dsm.drawDSMHelpers();
 }
 
 
