@@ -9,10 +9,6 @@ class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>//
   ArrayList<PVector> velocity = new ArrayList<PVector>();
 
   ArrayList<Float> mass = new ArrayList<Float>();
-  //ArrayList<Float> positionX = new ArrayList<Float>();
-  //ArrayList<Float> positionY = new ArrayList<Float>();
-  //ArrayList<Float> velocityX = new ArrayList<Float>();
-  //ArrayList<Float> velocityY = new ArrayList<Float>();
   ArrayList<Integer> colors = new ArrayList<Integer>();
   ArrayList<String> types = new ArrayList<String>();
   ArrayList<Integer> polygons = new ArrayList<Integer>();
@@ -21,12 +17,19 @@ class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>//
     sm = SM;
     time = 0;
     playerDelay = 0;
-    globeRadius = dsm.windowHeight/2 - 20;
+    globeRadius = (int) (dsm.windowHeight/2.5);
+     
+    
+    /*mass.add(mass.size(), 30.0);
+    position.add(position.size(), new PVector(dsm.windowWidth/2, dsm.windowHeight/2));
+    velocity.add(velocity.size(), new PVector(0, 0));
+    colors.add(mass.size(), 0);*/
   }
 
   void doDraw() {
     noStroke();
     background(15);
+    //translate(100,0);
 
     if (millis() > time) {
       time += (int) random(25, 100);
@@ -39,11 +42,16 @@ class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>//
       checkPlayerLocation();
     }
 
+    for (int particle = 0; particle < mass.size(); particle++) {
+      position.get(particle).lerp(new PVector(dsm.windowWidth+dsm.windowWidth/2.17,dsm.windowHeight/2-500),0.001);
+   }
+
     //rotate the globe
-    translate(dsm.windowWidth/2, dsm.windowHeight/4);
+    
     for (int particle = 0; particle < mass.size(); particle++) {
       position.get(particle).rotate(radians(.1));
     }
+    //translate(dsm.windowWidth/2, dsm.windowHeight/2);
 
     for (int particleA = 0; particleA < mass.size(); particleA++) {
       float accelerationX = 0, accelerationY = 0;
