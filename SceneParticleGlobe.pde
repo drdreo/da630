@@ -39,6 +39,11 @@ class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>//
       checkPlayerLocation();
     }
 
+    //rotate the globe
+    translate(dsm.windowWidth/2, dsm.windowHeight/4);
+    for (int particle = 0; particle < mass.size(); particle++) {
+      position.get(particle).rotate(radians(.1));
+    }
 
     for (int particleA = 0; particleA < mass.size(); particleA++) {
       float accelerationX = 0, accelerationY = 0;
@@ -81,13 +86,13 @@ class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>//
 
       if (types.get(particle) == "circle") {
         ellipse(x, y, w, w);
-        //translate(dsm.windowWidth/2, dsm.windowHeight/2);
-        //rotate(radians(10));
+        //translate(-100, -100);
+        //rotate(radians(1));
       } else if (types.get(particle) == "polygon") {
         polygon(x, y, w/2, polygons.get(n));
         n++;
-        //translate(dsm.windowWidth/2, dsm.windowHeight/2);
-        //rotate(radians(10));
+        //translate(-100, -100);
+        //rotate(radians(1));
       }
     }
     //pop();
@@ -126,7 +131,7 @@ class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>//
   void addNewParticle(int x, int y) {
     if (y > dsm.windowHeight / 2) {
       if (x <= dsm.windowWidth / 2) {
-        colors.add(color(15, 200, 12, 87));
+        colors.add(color(115, 115, 115, 87));
         types.add("circle");
       } else {
         colors.add(color(164, 34, 98, 114));
