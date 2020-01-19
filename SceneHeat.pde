@@ -20,12 +20,11 @@ class SceneHeat extends Scene {
   }
 
   void doDraw() {
-    this.alpha = 7; //map(this.averagePos, 0, width, 5, 35);
-    //println("alpha: " + this.alpha);
+    this.alpha = 10;
     fill(0, alpha);
-    rect(0, 0, width, height);
+    rect(0, 0, dsm.windowWidth, dsm.windowHeight);
 
-    // if 33% of all players move, increase heat
+    // if 50% of all players move, increase heat
     int movingLimit = (int)pc.players.size() / 2;
     if (this.movingPlayers > movingLimit && this.redValue < 255) {     
       this.redValue++;
@@ -45,8 +44,8 @@ class SceneHeat extends Scene {
     }
     updatePixels();
     updateAvgPlayers();
-    // start end fade after heat was on for 3000ms
-    if (millis() - startTime > 10000) {
+    // start end fade after heat was on for 20000ms
+    if (millis() - startTime > 20000) {
       this.startEnd();
     }
   }

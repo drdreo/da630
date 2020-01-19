@@ -45,9 +45,9 @@ class SceneWind extends Scene {
     noStroke();
     smooth();
 
-    fill(12,12,12, 10);
+    fill(12, 12, 12, 10);
 
-    rect(0,0, dsm.windowWidth, dsm.windowHeight);
+    rect(0, 0, dsm.windowWidth, dsm.windowHeight);
     addRepellers();
     //drawRepellers();
 
@@ -64,25 +64,17 @@ class SceneWind extends Scene {
           strongestForce = repellForce.copy();
         }
       } 
-      
+
       PVector pos = particles[i].pos;
       // apply perlin force
       float angle = noise(pos.x / noiseScale, pos.y / noiseScale) * TWO_PI * noiseStrength;
       PVector dir = new PVector(cos(angle), sin(angle));
       particles[i].applyForce(dir.add(strongestForce));
-
-        /* float angle=noise(this.pos.x/noiseScale, this.pos.y/noiseScale, frameCount/noiseScale)*TWO_PI*this.noiseStrength;
-        this.dir.x = cos(angle)+sin(angle)-sin(angle);
-        this.dir.y = sin(angle)-cos(angle)*sin(angle);
-        this.vel = this.dir.copy();
-        this.vel.mult(this.speed);
-        this.pos.add(this.vel);*/
-      
       particles[i].step();
     }
-    
-    // start end fade after 15000ms
-    if(millis() - startTime > 15000){
+
+    // start end fade after 17000ms
+    if (millis() - startTime > 20000) {
       this.startEnd();
     }
   }
@@ -132,15 +124,6 @@ class SceneWind extends Scene {
       vel.add(acc);
       pos.add(vel.limit(0.8));
       acc.mult(0);
-
-      // store trail
-      /*if (prev.dist(pos)> 1) {
-       if (trail.size() > 10) {
-       trail.removeLast();
-       }
-       trail.addFirst(pos.copy());
-       prev = pos.copy();
-       }*/
     }
 
     void applyForce(PVector force) {
@@ -150,10 +133,6 @@ class SceneWind extends Scene {
 
     void checkEdge() {
       if (this.outOfBoundaries()) {
-
-        //  this.fillColor = color(255, 0, 0);
-        //println(this.id + " outbound x:" + this.pos.x + " y:" + this.pos.y);
-
         this.pos.x = random(1, dsm.windowWidth);
         this.pos.y = random(1, dsm.wallHeight);
         this.checkEdge();
@@ -167,13 +146,8 @@ class SceneWind extends Scene {
     void display() {
       fill(this.fillColor);
       ellipse(this.pos.x, this.pos.y, 3, 3);
-      /* for (int i = 0; i < trail.size(); i++) {
-       PVector tP = trail.get(i);
-       ellipse(tP.x, tP.y, 2, 2);
-       }*/
-
       // mirror to bottom
-      ellipse(this.pos.x, this.pos.y + dsm.wallHeight, 1, 1);
+      ellipse(this.pos.x, this.pos.y + dsm.wallHeight, 3, 3);
     }
   }
 

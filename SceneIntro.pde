@@ -5,6 +5,8 @@ class SceneIntro extends Scene {
   int fontSize = 32;
 
   String[] sentences = {
+    "",
+    "",
     "The climate crisis is the battle of our time", 
     "We are facing the biggest environmental", 
     "challenge our species has ever seen.", 
@@ -16,8 +18,10 @@ class SceneIntro extends Scene {
   int alphaLerp = 0, alphaDirection = 4;
 
   SceneIntro(SceneManager sm) {
+    println("SceneIntro started");
+
     this.sm = sm;
-    font = createFont("Arial", fontSize);
+    font = createFont("Kanit-Light.ttf", fontSize);
     textFont(font, fontSize);
     textAlign(CENTER, CENTER);
   }

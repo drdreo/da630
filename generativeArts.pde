@@ -5,6 +5,8 @@ void settings() {
   dsm = new DeepSpaceManager();
   // size has to be inited in settings when using OOP
   size(dsm.windowWidth, dsm.windowHeight, FX2D ); 
+  //fullScreen(P2D, SPAN);
+
   smooth();
 }
 
@@ -12,7 +14,7 @@ void setup() {
   frameRate(dsm.frameRate);
   dsm.doSetup();
 
-  sm = new SceneManager();
+  sm = new SceneManager(this);
 }
 
 void draw() {
