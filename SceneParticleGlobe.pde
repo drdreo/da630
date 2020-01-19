@@ -1,15 +1,18 @@
-class SceneParticleGlobe extends Scene { //<>// //<>//
+class SceneParticleGlobe extends Scene { //<>// //<>// //<>// //<>//
   SceneManager sm;
 
   int time;
   int playerDelay;
   int globeRadius;
 
+  ArrayList<PVector> position = new ArrayList<PVector>();
+  ArrayList<PVector> velocity = new ArrayList<PVector>();
+
   ArrayList<Float> mass = new ArrayList<Float>();
-  ArrayList<Float> positionX = new ArrayList<Float>();
-  ArrayList<Float> positionY = new ArrayList<Float>();
-  ArrayList<Float> velocityX = new ArrayList<Float>();
-  ArrayList<Float> velocityY = new ArrayList<Float>();
+  //ArrayList<Float> positionX = new ArrayList<Float>();
+  //ArrayList<Float> positionY = new ArrayList<Float>();
+  //ArrayList<Float> velocityX = new ArrayList<Float>();
+  //ArrayList<Float> velocityY = new ArrayList<Float>();
   ArrayList<Integer> colors = new ArrayList<Integer>();
   ArrayList<String> types = new ArrayList<String>();
   ArrayList<Integer> polygons = new ArrayList<Integer>();
@@ -18,7 +21,7 @@ class SceneParticleGlobe extends Scene { //<>// //<>//
     sm = SM;
     time = 0;
     playerDelay = 0;
-    globeRadius = dsm.windowHeight/4 - 20;
+    globeRadius = dsm.windowHeight/2 - 20;
   }
 
   void doDraw() {
@@ -26,7 +29,7 @@ class SceneParticleGlobe extends Scene { //<>// //<>//
     background(15);
 
     if (millis() > time) {
-      time += (int) random(50, 300);
+      time += (int) random(25, 100);
       addRandomParticle();
       randomizePolygons();
     }
@@ -36,16 +39,25 @@ class SceneParticleGlobe extends Scene { //<>// //<>//
       checkPlayerLocation();
     }
 
+    //rotate the globe
+    translate(dsm.windowWidth/2, dsm.windowHeight/4);
+    for (int particle = 0; particle < mass.size(); particle++) {
+      position.get(particle).rotate(radians(.1));
+    }
 
     for (int particleA = 0; particleA < mass.size(); particleA++) {
-      float accelerationX = 0, accelerationY = 0; //<>//
+      float accelerationX = 0, accelerationY = 0;
 
       for (int particleB = 0; particleB < mass.size(); particleB++) {
         if (particleA != particleB) {
-          float distanceX = positionX.get(particleB) - positionX.get(particleA);
-          float distanceY = positionY.get(particleB) - positionY.get(particleA);
+          //float distanceX = positionX.get(particleB) - positionX.get(particleA);
+          //float distanceY = positionY.get(particleB) - positionY.get(particleA);
 
-          float distance = sqrt(distanceX * distanceX + distanceY * distanceY);
+          float distance;
+          float distanceX = position.get(particleB).x - position.get(particleA).x;
+          float distanceY = position.get(particleB).y - position.get(particleA).y;
+
+          distance = sqrt(distanceX * distanceX + distanceY * distanceY);
           if (distance < 1) distance = 1;
 
           float force = (distance - globeRadius) * mass.get(particleB) / distance;
@@ -54,34 +66,39 @@ class SceneParticleGlobe extends Scene { //<>// //<>//
         }
       }
 
-      velocityX.set(particleA, velocityX.get(particleA) * 0.75 + accelerationX * mass.get(particleA));
-      velocityY.set(particleA, velocityY.get(particleA) * 0.50 + accelerationY * mass.get(particleA));
+      velocity.set(particleA, new PVector(velocity.get(particleA).x * 0.75 + accelerationX * mass.get(particleA), velocity.get(particleA).y * 0.50 + accelerationY * mass.get(particleA)));
+      velocity.get(particleA).rotate(radians(10));
     }
-
-    //loadPixels();
 
     int n = 0;
-
+    //push();
     for (int particle = 0; particle < mass.size(); particle++) {
-      positionX.set(particle, positionX.get(particle) + velocityX.get(particle));
-      positionY.set(particle, positionY.get(particle) + velocityY.get(particle));
+      //positionX.set(particle, positionX.get(particle) + velocityX.get(particle));
+      //positionY.set(particle, positionY.get(particle) + velocityY.get(particle));
+      float w = mass.get(particle) * 1000;
+      float x = position.get(particle).x;
+      float y = position.get(particle).y;
 
+      position.set(particle, new PVector(position.get(particle).x + velocity.get(particle).x, position.get(particle).y + velocity.get(particle).y));
       fill(colors.get(particle));
-      float x = positionX.get(particle); //<>//
-      float y = positionY.get(particle);
-      float width = mass.get(particle) * 1000;
+      x = position.get(particle).x;
+      y = position.get(particle).y;
 
       if (types.get(particle) == "circle") {
-        ellipse(x, y, width, width);
+        ellipse(x, y, w, w);
+        //translate(-100, -100);
+        //rotate(radians(1));
       } else if (types.get(particle) == "polygon") {
-        polygon(x, y, width/2, polygons.get(n));
+        polygon(x, y, w/2, polygons.get(n));
         n++;
+        //translate(-100, -100);
+        //rotate(radians(1));
       }
     }
+    //pop();
 
-    //updatePixels();
     // start end fade after 30s
-    if (millis() - startTime > 30000) {
+    if (millis() - startTime > 60000) {
       this.startEnd();
     }
   }
@@ -93,10 +110,15 @@ class SceneParticleGlobe extends Scene { //<>// //<>//
       colors.add(color(0, 25, 200, 144));
     }
     mass.add(random(0.003, 0.03));
-    positionX.add((float)random(10, dsm.windowWidth-10));
-    positionY.add((float)random(10, dsm.windowHeight/2));
-    velocityX.add(0.0);
-    velocityY.add(0.0);
+    //positionX.add((float)random(10, dsm.windowWidth-10));
+    //positionY.add((float)random(10, dsm.windowHeight/2));
+
+    position.add(new PVector((float)random(10, dsm.windowWidth-10), (float)random(10, dsm.windowHeight/2)));
+
+    //velocityX.add(0.0);
+    //velocityY.add(0.0);
+
+    velocity.add(new PVector(0.0, 0.0));
     types.add("circle");
   }
 
@@ -109,7 +131,7 @@ class SceneParticleGlobe extends Scene { //<>// //<>//
   void addNewParticle(int x, int y) {
     if (y > dsm.windowHeight / 2) {
       if (x <= dsm.windowWidth / 2) {
-        colors.add(color(15, 200, 12, 87));
+        colors.add(color(115, 115, 115, 87));
         types.add("circle");
       } else {
         colors.add(color(164, 34, 98, 114));
@@ -118,10 +140,15 @@ class SceneParticleGlobe extends Scene { //<>// //<>//
       }
 
       mass.add(random(0.003, 0.03));
-      positionX.add((float)x);
-      positionY.add((float)y);
-      velocityX.add(0.0);
-      velocityY.add(0.0);
+      //positionX.add((float)x);
+      //positionY.add((float)y);
+
+      position.add(new PVector((float)x, (float)y));
+
+      //velocityX.add(0.0);
+      //velocityY.add(0.0);
+
+      velocity.add(new PVector(0.0, 0.0));
     }
   }
 
