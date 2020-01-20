@@ -33,7 +33,6 @@ class SceneIntro extends Scene {
     //rect(0, 0, dsm.windowWidth, dsm.windowHeight);
     alphaLerp += alphaDirection;
 
-
     noStroke();
     fill(255, 255, 255, alphaLerp);
     text(sentences[sentence], dsm.windowWidth/2, dsm.wallHeight / 2);

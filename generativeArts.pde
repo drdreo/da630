@@ -18,14 +18,12 @@ void settings() {
 void setup() {
   frameRate(dsm.FrameRate);
   dsm.doSetup();
-
-
   sm = new SceneManager(this);
 }
 
 void draw() {
-  // draw upper / lower area of deep space and tracking helpers
   sm.doDraw();
+  // draw upper / lower area of deep space and tracking helpers
   // dsm.drawDSMHelpers();
 }
 
