@@ -44,8 +44,8 @@ class SceneHeat extends Scene {
     }
     updatePixels();
     updateAvgPlayers();
-    // start end fade after heat was on for 20000ms
-    if (millis() - startTime > 20000) {
+    // start end fade after heat was on for 25000ms
+    if (millis() - startTime > 30000) {
       this.startEnd();
     }
   }

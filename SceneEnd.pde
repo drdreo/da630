@@ -47,7 +47,7 @@ class SceneEnd extends Scene {
     }
 
     // fade music
-    if (amp-- >= 0) {
+    if (--amp >= 0) {
       sm.s.volume(amp/100);
     }
   }

@@ -73,8 +73,8 @@ class SceneWind extends Scene {
       particles[i].step();
     }
 
-    // start end fade after 17000ms
-    if (millis() - startTime > 20000) {
+    // start end fade after 25000ms
+    if (millis() - startTime > 25000) {
       this.startEnd();
     }
   }
